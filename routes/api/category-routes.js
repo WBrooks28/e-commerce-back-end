@@ -93,15 +93,15 @@ router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
   Category.destroy({
     where: {
-      id: req.params.id
-    }
+      id: req.params.id,
+    },
   })
     .then(dbCategoryData => {
-      if (!dbCategoryData) {
-        res.status(404).json({ message: 'No category found with that id' });
-        return;
-      }
-      res.json(dbCategoryData);
+      dbCategoryData
+        ? res.json(dbCategoryData)
+        : res
+            .status(404)
+            .json({ message: 'No Category found with this id' });
     })
     .catch(err => {
       console.log(err);
